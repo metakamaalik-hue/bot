@@ -24,9 +24,9 @@ const mainMenuKeyboard = {
   reply_markup: {
     inline_keyboard: [
       [{ text: "1️⃣ Today's Match Insights", callback_data: "match_insight" }],
-      [{ text: "2️⃣ Premium Analysis", callback_data: "premium" }],
-      [{ text: "3️⃣ Join Community", callback_data: "community" }],
-      [{ text: "4️⃣ Live Updates", callback_data: "live_updates" }],
+      [{ text: "2️⃣ Premium Analysis",       callback_data: "premium"       }],
+      [{ text: "3️⃣ Join Community",          callback_data: "community"     }],
+      [{ text: "4️⃣ Live Updates",            callback_data: "live_updates"  }],
     ],
   },
 };
@@ -44,7 +44,7 @@ const backKeyboard = {
 const MESSAGES = {
   welcome: `Hello 👋\n\nWelcome to the *Sports Insights Hub!*\n\nGet ready to access:\n📊 Match Analysis\n🔥 Trending Insights\n📈 Data-Based Predictions\n\nClick below to continue 👇`,
 
-  mainMenu: `Choose an option:\n\n1️⃣ *Today's Match Insights*\n2️⃣ *Premium Analysis*\n3️⃣ *Join Community*\n4️⃣ *Live Updates*`,
+  mainMenu: `🏠 *Main Menu*\n\nSelect an option below 👇`,
 
   matchInsight: `📊 *Match: Team A vs Team B*\n\n✔️ Recent Form Analysis\n✔️ Head-to-Head Stats\n✔️ Key Player Performance\n✔️ Winning Probability\n\n👉 *Get Full Analysis Here:*\nhttps://t.me/rockybook2121rockybookeducation`,
 
@@ -55,35 +55,45 @@ const MESSAGES = {
   liveUpdates: `📡 *Live Updates*\n\nGet real-time score updates, breaking news & instant match insights.\n\n🔔 Stay tuned — live coverage is active!\n\n👉 *Follow Live:*\nhttps://t.me/rockybook2121rockybookeducation`,
 };
 
-// ─── HANDLERS ─────────────────────────────────────────────────────────────────
+// ─── COMMAND HANDLERS ─────────────────────────────────────────────────────────
 
 bot.onText(/\/start/, (msg) => {
-  const chatId = msg.chat.id;
-  bot.sendMessage(chatId, MESSAGES.welcome, {
+  bot.sendMessage(msg.chat.id, MESSAGES.welcome, {
     parse_mode: "Markdown",
     ...startKeyboard,
   });
 });
 
 bot.onText(/\/menu/, (msg) => {
-  sendMainMenu(msg.chat.id);
+  bot.sendMessage(msg.chat.id, MESSAGES.mainMenu, {
+    parse_mode: "Markdown",
+    ...mainMenuKeyboard,
+  });
 });
 
+// ─── CALLBACK HANDLER ─────────────────────────────────────────────────────────
+
 bot.on("callback_query", (query) => {
-  const chatId = query.message.chat.id;
-  const messageId = query.message.message_id;
-  const data = query.data;
+  const chatId     = query.message.chat.id;
+  const messageId  = query.message.message_id;
+  const data       = query.data;
 
   bot.answerCallbackQuery(query.id);
 
   switch (data) {
+
     case "start_now":
-      sendMainMenu(chatId);
+      bot.editMessageText(MESSAGES.mainMenu, {
+        chat_id:    chatId,
+        message_id: messageId,
+        parse_mode: "Markdown",
+        ...mainMenuKeyboard,
+      });
       break;
 
     case "main_menu":
       bot.editMessageText(MESSAGES.mainMenu, {
-        chat_id: chatId,
+        chat_id:    chatId,
         message_id: messageId,
         parse_mode: "Markdown",
         ...mainMenuKeyboard,
@@ -92,7 +102,7 @@ bot.on("callback_query", (query) => {
 
     case "match_insight":
       bot.editMessageText(MESSAGES.matchInsight, {
-        chat_id: chatId,
+        chat_id:    chatId,
         message_id: messageId,
         parse_mode: "Markdown",
         ...backKeyboard,
@@ -101,7 +111,7 @@ bot.on("callback_query", (query) => {
 
     case "premium":
       bot.editMessageText(MESSAGES.premium, {
-        chat_id: chatId,
+        chat_id:    chatId,
         message_id: messageId,
         parse_mode: "Markdown",
         ...backKeyboard,
@@ -110,7 +120,7 @@ bot.on("callback_query", (query) => {
 
     case "community":
       bot.editMessageText(MESSAGES.community, {
-        chat_id: chatId,
+        chat_id:    chatId,
         message_id: messageId,
         parse_mode: "Markdown",
         ...backKeyboard,
@@ -119,7 +129,7 @@ bot.on("callback_query", (query) => {
 
     case "live_updates":
       bot.editMessageText(MESSAGES.liveUpdates, {
-        chat_id: chatId,
+        chat_id:    chatId,
         message_id: messageId,
         parse_mode: "Markdown",
         ...backKeyboard,
@@ -130,15 +140,6 @@ bot.on("callback_query", (query) => {
       break;
   }
 });
-
-// ─── HELPERS ──────────────────────────────────────────────────────────────────
-
-function sendMainMenu(chatId) {
-  bot.sendMessage(chatId, MESSAGES.mainMenu, {
-    parse_mode: "Markdown",
-    ...mainMenuKeyboard,
-  });
-}
 
 // ─── ERROR HANDLING ───────────────────────────────────────────────────────────
 
