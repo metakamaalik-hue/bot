@@ -10,6 +10,8 @@ const bot = new TelegramBot(TOKEN, { polling: true });
 
 console.log("🚀 Sports Insights Hub Bot is running...");
 
+const LINK = "https://t.me/rockybook2121rockybookeducation";
+
 // ─── INLINE KEYBOARDS ─────────────────────────────────────────────────────────
 
 const startKeyboard = {
@@ -31,9 +33,37 @@ const mainMenuKeyboard = {
   },
 };
 
-const backKeyboard = {
+const matchKeyboard = {
   reply_markup: {
     inline_keyboard: [
+      [{ text: "📊 Get Full Analysis Here", url: LINK }],
+      [{ text: "🔙 Back to Main Menu", callback_data: "main_menu" }],
+    ],
+  },
+};
+
+const premiumKeyboard = {
+  reply_markup: {
+    inline_keyboard: [
+      [{ text: "🔥 Access Now", url: LINK }],
+      [{ text: "🔙 Back to Main Menu", callback_data: "main_menu" }],
+    ],
+  },
+};
+
+const communityKeyboard = {
+  reply_markup: {
+    inline_keyboard: [
+      [{ text: "💬 Join Community", url: LINK }],
+      [{ text: "🔙 Back to Main Menu", callback_data: "main_menu" }],
+    ],
+  },
+};
+
+const liveKeyboard = {
+  reply_markup: {
+    inline_keyboard: [
+      [{ text: "📡 Follow Live Updates", url: LINK }],
       [{ text: "🔙 Back to Main Menu", callback_data: "main_menu" }],
     ],
   },
@@ -46,13 +76,13 @@ const MESSAGES = {
 
   mainMenu: `🏠 *Main Menu*\n\nSelect an option below 👇`,
 
-  matchInsight: `📊 *Match: Team A vs Team B*\n\n✔️ Recent Form Analysis\n✔️ Head-to-Head Stats\n✔️ Key Player Performance\n✔️ Winning Probability\n\n👉 *Get Full Analysis Here:*\nhttps://t.me/rockybook2121rockybookeducation`,
+  matchInsight: `📊 *Match: Team A vs Team B*\n\n✔️ Recent Form Analysis\n✔️ Head-to-Head Stats\n✔️ Key Player Performance\n✔️ Winning Probability`,
 
-  premium: `🔥 *Unlock Advanced Insights*\n\nGet deeper analysis, accuracy-based picks & real-time updates.\n\n👉 *Access Now:*\nhttps://t.me/rockybook2121rockybookeducation`,
+  premium: `🔥 *Unlock Advanced Insights*\n\nGet deeper analysis, accuracy-based picks & real-time updates.`,
 
-  community: `💬 *Join Our Discussion Community*\n\nStay updated with latest match trends & insights.\n\n👉 *Join Here:*\nhttps://t.me/rockybook2121rockybookeducation`,
+  community: `💬 *Join Our Discussion Community*\n\nStay updated with latest match trends & insights.`,
 
-  liveUpdates: `📡 *Live Updates*\n\nGet real-time score updates, breaking news & instant match insights.\n\n🔔 Stay tuned — live coverage is active!\n\n👉 *Follow Live:*\nhttps://t.me/rockybook2121rockybookeducation`,
+  liveUpdates: `📡 *Live Updates*\n\nGet real-time score updates, breaking news & instant match insights.\n\n🔔 Stay tuned — live coverage is active!`,
 };
 
 // ─── COMMAND HANDLERS ─────────────────────────────────────────────────────────
@@ -74,9 +104,9 @@ bot.onText(/\/menu/, (msg) => {
 // ─── CALLBACK HANDLER ─────────────────────────────────────────────────────────
 
 bot.on("callback_query", (query) => {
-  const chatId     = query.message.chat.id;
-  const messageId  = query.message.message_id;
-  const data       = query.data;
+  const chatId    = query.message.chat.id;
+  const messageId = query.message.message_id;
+  const data      = query.data;
 
   bot.answerCallbackQuery(query.id);
 
@@ -84,8 +114,7 @@ bot.on("callback_query", (query) => {
 
     case "start_now":
       bot.editMessageText(MESSAGES.mainMenu, {
-        chat_id:    chatId,
-        message_id: messageId,
+        chat_id: chatId, message_id: messageId,
         parse_mode: "Markdown",
         ...mainMenuKeyboard,
       });
@@ -93,8 +122,7 @@ bot.on("callback_query", (query) => {
 
     case "main_menu":
       bot.editMessageText(MESSAGES.mainMenu, {
-        chat_id:    chatId,
-        message_id: messageId,
+        chat_id: chatId, message_id: messageId,
         parse_mode: "Markdown",
         ...mainMenuKeyboard,
       });
@@ -102,37 +130,33 @@ bot.on("callback_query", (query) => {
 
     case "match_insight":
       bot.editMessageText(MESSAGES.matchInsight, {
-        chat_id:    chatId,
-        message_id: messageId,
+        chat_id: chatId, message_id: messageId,
         parse_mode: "Markdown",
-        ...backKeyboard,
+        ...matchKeyboard,
       });
       break;
 
     case "premium":
       bot.editMessageText(MESSAGES.premium, {
-        chat_id:    chatId,
-        message_id: messageId,
+        chat_id: chatId, message_id: messageId,
         parse_mode: "Markdown",
-        ...backKeyboard,
+        ...premiumKeyboard,
       });
       break;
 
     case "community":
       bot.editMessageText(MESSAGES.community, {
-        chat_id:    chatId,
-        message_id: messageId,
+        chat_id: chatId, message_id: messageId,
         parse_mode: "Markdown",
-        ...backKeyboard,
+        ...communityKeyboard,
       });
       break;
 
     case "live_updates":
       bot.editMessageText(MESSAGES.liveUpdates, {
-        chat_id:    chatId,
-        message_id: messageId,
+        chat_id: chatId, message_id: messageId,
         parse_mode: "Markdown",
-        ...backKeyboard,
+        ...liveKeyboard,
       });
       break;
 
