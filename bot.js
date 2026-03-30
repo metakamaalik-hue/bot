@@ -44,22 +44,32 @@ bot.on("callback_query", (query) => {
     );
   }
 
-  if (query.data === "joined") {
+ if (query.data === "joined") {
+    const name = query.from.first_name || "Champion";
     bot.editMessageText(
-      `🙏 *Thank You for Joining!*\n\n*${query.from.first_name}* ,  match analysis\n💡 Expert predictions\n📡 Live updates\n\n✨ *\n\n👑 Welcome to the Winners Club!`,
+      `🏆 *Welcome to the Winners Club!*\n\n` +
+      `Hey ${name}! 🎉\n\n` +
+      `Thank you for joining *Sports Insights Hub!*\n` +
+      `You are now part of our exclusive community! 🔥\n\n` +
+      `━━━━━━━━━━━━━━━━\n` +
+      `📊 Daily Match Analysis\n` +
+      `💡 Expert Predictions\n` +
+      `📡 Live Score Updates\n` +
+      `💰 Winning Strategies\n` +
+      `━━━━━━━━━━━━━━━━\n\n` +
+      `🚀 Share with your friends and help them win too!`,
       {
         chat_id: chatId,
         message_id: messageId,
         parse_mode: "Markdown",
         reply_markup: {
           inline_keyboard: [
-            [{ text: "🔗 Share with Friends", url: `https://t.me/share/url?url=${LINK}&text=Join%20Sports%20Insights%20Hub%20for%20daily%20match%20analysis!` }]
+            [{ text: "🔗 Share with Friends", url: `https://t.me/share/url?url=${encodeURIComponent(LINK)}&text=${encodeURIComponent("Join Sports Insights Hub for daily match analysis!")}` }]
           ]
         }
       }
     );
   }
-});
 
 bot.on("polling_error", (error) => {
   console.error("Polling error:", error.message);
