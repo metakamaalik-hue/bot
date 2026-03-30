@@ -10,23 +10,31 @@ const bot = new TelegramBot(TOKEN, { polling: true });
 
 console.log("🚀 Sports Insights Hub Bot is running...");
 
-// ─── KEYBOARDS ────────────────────────────────────────────────────────────────
-
-const mainMenuKeyboard = {
-  reply_markup: {
-    keyboard: [
-      ["1️⃣ Today's Match Insights", "2️⃣ Premium Analysis"],
-      ["3️⃣ Join Community", "4️⃣ Live Updates"],
-    ],
-    resize_keyboard: true,
-    one_time_keyboard: false,
-  },
-};
+// ─── INLINE KEYBOARDS ─────────────────────────────────────────────────────────
 
 const startKeyboard = {
   reply_markup: {
     inline_keyboard: [
       [{ text: "👉 Start Now", callback_data: "start_now" }],
+    ],
+  },
+};
+
+const mainMenuKeyboard = {
+  reply_markup: {
+    inline_keyboard: [
+      [
+        { text: "1️⃣ Today's Match Insights", callback_data: "match_insight" },
+      ],
+      [
+        { text: "2️⃣ Premium Analysis", callback_data: "premium" },
+      ],
+      [
+        { text: "3️⃣ Join Community", callback_data: "community" },
+      ],
+      [
+        { text: "4️⃣ Live Updates", callback_data: "live_updates" },
+      ],
     ],
   },
 };
@@ -74,6 +82,7 @@ bot.onText(/\/menu/, (msg) => {
 // Inline button callbacks
 bot.on("callback_query", (query) => {
   const chatId = query.message.chat.id;
+  const messageId = query.message.message_id;
   const data = query.data;
 
   bot.answerCallbackQuery(query.id);
@@ -84,41 +93,52 @@ bot.on("callback_query", (query) => {
       break;
 
     case "main_menu":
-      sendMainMenu(chatId);
+      bot.editMessageText(MESSAGES.mainMenu, {
+        chat_id: chatId,
+        message_id: messageId,
+        parse_mode: "Markdown",
+        ...mainMenuKeyboard,
+      });
+      break;
+
+    case "match_insight":
+      bot.editMessageText(MESSAGES.matchInsight, {
+        chat_id: chatId,
+        message_id: messageId,
+        parse_mode: "Markdown",
+        ...backKeyboard,
+      });
+      break;
+
+    case "premium":
+      bot.editMessageText(MESSAGES.premium, {
+        chat_id: chatId,
+        message_id: messageId,
+        parse_mode: "Markdown",
+        ...backKeyboard,
+      });
+      break;
+
+    case "community":
+      bot.editMessageText(MESSAGES.community, {
+        chat_id: chatId,
+        message_id: messageId,
+        parse_mode: "Markdown",
+        ...backKeyboard,
+      });
+      break;
+
+    case "live_updates":
+      bot.editMessageText(MESSAGES.liveUpdates, {
+        chat_id: chatId,
+        message_id: messageId,
+        parse_mode: "Markdown",
+        ...backKeyboard,
+      });
       break;
 
     default:
       break;
-  }
-});
-
-// Reply keyboard handlers
-bot.on("message", (msg) => {
-  const chatId = msg.chat.id;
-  const text = msg.text;
-
-  if (!text) return;
-
-  if (text.includes("Today's Match Insights") || text === "1") {
-    bot.sendMessage(chatId, MESSAGES.matchInsight, {
-      parse_mode: "Markdown",
-      ...backKeyboard,
-    });
-  } else if (text.includes("Premium Analysis") || text === "2") {
-    bot.sendMessage(chatId, MESSAGES.premium, {
-      parse_mode: "Markdown",
-      ...backKeyboard,
-    });
-  } else if (text.includes("Join Community") || text === "3") {
-    bot.sendMessage(chatId, MESSAGES.community, {
-      parse_mode: "Markdown",
-      ...backKeyboard,
-    });
-  } else if (text.includes("Live Updates") || text === "4") {
-    bot.sendMessage(chatId, MESSAGES.liveUpdates, {
-      parse_mode: "Markdown",
-      ...backKeyboard,
-    });
   }
 });
 
