@@ -23,18 +23,10 @@ const startKeyboard = {
 const mainMenuKeyboard = {
   reply_markup: {
     inline_keyboard: [
-      [
-        { text: "1️⃣ Today's Match Insights", callback_data: "match_insight" },
-      ],
-      [
-        { text: "2️⃣ Premium Analysis", callback_data: "premium" },
-      ],
-      [
-        { text: "3️⃣ Join Community", callback_data: "community" },
-      ],
-      [
-        { text: "4️⃣ Live Updates", callback_data: "live_updates" },
-      ],
+      [{ text: "1️⃣ Today's Match Insights", callback_data: "match_insight" }],
+      [{ text: "2️⃣ Premium Analysis", callback_data: "premium" }],
+      [{ text: "3️⃣ Join Community", callback_data: "community" }],
+      [{ text: "4️⃣ Live Updates", callback_data: "live_updates" }],
     ],
   },
 };
@@ -54,18 +46,17 @@ const MESSAGES = {
 
   mainMenu: `Choose an option:\n\n1️⃣ *Today's Match Insights*\n2️⃣ *Premium Analysis*\n3️⃣ *Join Community*\n4️⃣ *Live Updates*`,
 
-  matchInsight: `📊 *Match: Team A vs Team B*\n\n✔️ Recent Form Analysis\n✔️ Head-to-Head Stats\n✔️ Key Player Performance\n✔️ Winning Probability\n\n👉 *Get Full Analysis Here:*\n[Your Landing Link]`,
+  matchInsight: `📊 *Match: Team A vs Team B*\n\n✔️ Recent Form Analysis\n✔️ Head-to-Head Stats\n✔️ Key Player Performance\n✔️ Winning Probability\n\n👉 *Get Full Analysis Here:*\nhttps://t.me/rockybook2121rockybookeducation`,
 
-  premium: `🔥 *Unlock Advanced Insights*\n\nGet deeper analysis, accuracy-based picks & real-time updates.\n\n👉 *Access Now:*\n[Your Website / Landing Page Link]`,
+  premium: `🔥 *Unlock Advanced Insights*\n\nGet deeper analysis, accuracy-based picks & real-time updates.\n\n👉 *Access Now:*\nhttps://t.me/rockybook2121rockybookeducation`,
 
   community: `💬 *Join Our Discussion Community*\n\nStay updated with latest match trends & insights.\n\n👉 *Join Here:*\nhttps://t.me/rockybook2121rockybookeducation`,
 
-  liveUpdates: `📡 *Live Updates*\n\nGet real-time score updates, breaking news & instant match insights.\n\n🔔 Stay tuned — live coverage is active!\n\n👉 *Follow Live:*\n[Your Live Updates Link]`,
+  liveUpdates: `📡 *Live Updates*\n\nGet real-time score updates, breaking news & instant match insights.\n\n🔔 Stay tuned — live coverage is active!\n\n👉 *Follow Live:*\nhttps://t.me/rockybook2121rockybookeducation`,
 };
 
 // ─── HANDLERS ─────────────────────────────────────────────────────────────────
 
-// /start command
 bot.onText(/\/start/, (msg) => {
   const chatId = msg.chat.id;
   bot.sendMessage(chatId, MESSAGES.welcome, {
@@ -74,12 +65,10 @@ bot.onText(/\/start/, (msg) => {
   });
 });
 
-// /menu command
 bot.onText(/\/menu/, (msg) => {
   sendMainMenu(msg.chat.id);
 });
 
-// Inline button callbacks
 bot.on("callback_query", (query) => {
   const chatId = query.message.chat.id;
   const messageId = query.message.message_id;
