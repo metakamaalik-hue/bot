@@ -44,7 +44,7 @@ bot.on("callback_query", (query) => {
     );
   }
 
- if (query.data === "joined") {
+  if (query.data === "joined") {
     const name = query.from.first_name || "Champion";
     bot.editMessageText(
       `🏆 *Welcome to the Winners Club!*\n\n` +
@@ -70,6 +70,7 @@ bot.on("callback_query", (query) => {
       }
     );
   }
+}); // ✅ Yeh bracket pehle missing thi
 
 bot.on("polling_error", (error) => {
   console.error("Polling error:", error.message);
