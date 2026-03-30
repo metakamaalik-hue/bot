@@ -46,7 +46,7 @@ bot.on("callback_query", (query) => {
 
   if (query.data === "joined") {
     bot.editMessageText(
-      `🙏 *Thank You for Joining!*\n\n*${query.from.first_name}* bhai, aap ab humare family ka hissa ho! 🎊\n\n🔥 Aapko milega:\n📊 Har roz match analysis\n💡 Expert predictions\n📡 Live updates\n\n✨ *Ek kaam karo* — Channel ko apne doston ke saath share karo aur unhe bhi fayda do! 🚀\n\n👑 Welcome to the Winners Club!`,
+      `🙏 *Thank You for Joining!*\n\n*${query.from.first_name}* ,  match analysis\n💡 Expert predictions\n📡 Live updates\n\n✨ *\n\n👑 Welcome to the Winners Club!`,
       {
         chat_id: chatId,
         message_id: messageId,
